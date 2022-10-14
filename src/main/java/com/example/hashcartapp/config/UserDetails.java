@@ -1,7 +1,7 @@
 package com.example.hashcartapp.config;
 
 
-import com.example.tester.entities.User;
+import com.example.hashcartapp.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

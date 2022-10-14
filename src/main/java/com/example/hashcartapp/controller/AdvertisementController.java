@@ -2,19 +2,17 @@ package com.example.hashcartapp.controller;
 
 import com.example.hashcartapp.dto.AdvertisementDTO;
 import com.example.hashcartapp.entities.Advertisement;
-import com.example.hashcartapp.entities.Advertisement;
 import com.example.hashcartapp.repository.AdvertisementRepository;
-import com.example.hashcartapp.service.AdvertisementService;
 import com.example.hashcartapp.service.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class AdvertisementController {
@@ -39,20 +37,10 @@ public class AdvertisementController {
         return new ResponseEntity<AdvertisementDTO>(HttpStatus.NOT_FOUND);
     }
 
-    /*@PostMapping("/advertisement")
-    public String postingAnAdvertisement(@Valid @RequestBody Advertisement advertisement) {
-        try {
-            this.advertisementRepository.save(advertisement);
-            return "An advertisement is successfully registered";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "not registered";
-        }
-    }*/
-
-    @PostMapping("/advertisement")
+	@Secured({"admin", "user"})
+    @PostMapping("/postAdvertisement")
 	@ExceptionHandler(HttpClientErrorException.class)
-	public ResponseEntity<Advertisement> registerUser(@Valid @RequestBody Advertisement advertisement) {
+	public ResponseEntity<Advertisement> registerAdvertisement(@Valid @RequestBody Advertisement advertisement) {
 		try {
 			Advertisement  advertisementSaved = advertisementService.saveAdvertisement(advertisement);
 
@@ -68,6 +56,17 @@ public class AdvertisementController {
 		catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Advertisement>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+     @DeleteMapping("/advertisement")
+	public ResponseEntity<Advertisement> deleteAdvertisement(@Valid @RequestParam(value = "advertisementId") Long advertisementId) {
+		try {
+			advertisementService.deleteAdvertisement(advertisementId);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

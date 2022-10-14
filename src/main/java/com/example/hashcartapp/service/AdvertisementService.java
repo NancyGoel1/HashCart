@@ -52,6 +52,10 @@ public class AdvertisementService {
         return advertisementRepository.save(advertisement);
     }
 
+    public void deleteAdvertisement(Long advertisementId){
+        advertisementRepository.deleteById(advertisementId);
+    }
+
     public AdvertisementDTO  convertEntityToDTO(Advertisement advertisement){
         AdvertisementDTO advertisementDTO = new AdvertisementDTO();
         advertisementDTO.setAdvertisementId(advertisement.getAdvertisementId());

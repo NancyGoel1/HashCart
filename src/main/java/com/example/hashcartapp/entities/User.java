@@ -31,6 +31,7 @@ public class User {
     @Column(unique = true)
     private String email;
 
+    @Column(length = 50)
     private String password;
 
     private String department;

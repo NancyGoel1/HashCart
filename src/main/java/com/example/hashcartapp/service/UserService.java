@@ -65,17 +65,4 @@ public class UserService {
            userDTO.setAdvertisementList(user.getAdvertisements());
            return userDTO;
      }
-
-      /* public User DTOToEntity(UserDTO userdto) {
-        User user= new User();
-        user.setUserId(user.getUserId());
-        user.setName(user.getName());
-        user.setEmpId(user.getEmpId());
-        user.setEmail(user.getEmail());
-        user.setDepartment(user.getDepartment());
-        user.setDesignation(user.getDesignation());
-        user.setPassword(user.getPassword());
-        user.setRole(user.getRole());
-        return user;
-    }*/
 }

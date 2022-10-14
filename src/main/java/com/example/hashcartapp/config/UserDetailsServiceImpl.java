@@ -1,7 +1,7 @@
 package com.example.hashcartapp.config;
 
-import com.example.tester.entities.User;
-import com.example.tester.repository.UserRepository;
+import com.example.hashcartapp.entities.User;
+import com.example.hashcartapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
