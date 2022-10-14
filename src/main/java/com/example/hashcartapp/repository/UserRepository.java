@@ -1,12 +1,12 @@
-package com.example.Demo_func1.repository;
+package com.example.hashcartapp.repository;
 
-import com.example.Demo_func1.model.User;
+import com.example.hashcartapp.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserRepository extends JpaRepository<User,Long> {
-    @Query("select u from User u where u.email= :email")
-    public User getUserByUserName(@Param("email") String email);
+    //public User getUserByUserName(@Param("email") String email);
 
 }

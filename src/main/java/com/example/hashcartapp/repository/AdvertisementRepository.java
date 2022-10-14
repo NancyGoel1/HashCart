@@ -1,8 +1,10 @@
-package com.example.Demo_func1.repository;
+package com.example.hashcartapp.repository;
 
 
-import com.example.Demo_func1.model.Advertisement;
+import com.example.hashcartapp.entities.Advertisement;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
 }

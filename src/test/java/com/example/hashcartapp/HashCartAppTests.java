@@ -1,10 +1,10 @@
-package com.example.Demo_func1;
+package com.example.hashcartapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoFunc1ApplicationTests {
+class HashCartAppTests {
 
 	@Test
 	void contextLoads() {
