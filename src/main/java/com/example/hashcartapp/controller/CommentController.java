@@ -1,2 +1,4 @@
-package com.example.hashcartapp.controller;public class CommentController {
+package com.example.hashcartapp.controller;
+
+public class CommentController {
 }

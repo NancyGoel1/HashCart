@@ -1,2 +1,4 @@
-package com.example.hashcartapp.service;public class LikeService {
+package com.example.hashcartapp.service;
+
+public class LikeService {
 }

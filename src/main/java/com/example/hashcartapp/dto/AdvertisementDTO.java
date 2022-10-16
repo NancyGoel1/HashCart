@@ -4,10 +4,12 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.time.ZonedDateTime;
+import java.util.Date;
+
 @Data
 public class AdvertisementDTO {
 
-    private Long advertisementId;
+    public Long advertisementId;
 
     @NotBlank(message = "Description is required")
     private String description;
@@ -21,10 +23,10 @@ public class AdvertisementDTO {
     @NotBlank(message = "Location is required")
     private String location;
 
-    @NotBlank(message = "Price is required")
+    @NotBlank(message = " Lower price is required")
     private Long priceRangeLower;
 
-    @NotBlank(message = "Price is required")
+    @NotBlank(message = "Higher price is required")
     private Long priceRangeHigher;
 
     @NotBlank(message = "Creation date is required")

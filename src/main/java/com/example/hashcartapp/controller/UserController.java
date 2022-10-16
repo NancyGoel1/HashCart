@@ -6,6 +6,7 @@ import com.example.hashcartapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +27,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-	@PreAuthorize("hasRole('admin')")
+	//@PreAuthorize("hasRole('admin')")
     @GetMapping("/getUser")
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
 
-	@PreAuthorize("hasRole('user')")
+	//@PreAuthorize("hasRole('user')")
+	//@Secured({"user"})
 	@GetMapping("/userById")
 	public ResponseEntity<UserDTO> getUser(@Valid @RequestParam(value = "userId") Long userId) {
 		UserDTO user = userService.getUserById(userId);

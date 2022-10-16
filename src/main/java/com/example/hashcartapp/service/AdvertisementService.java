@@ -4,6 +4,8 @@ import com.example.hashcartapp.dto.AdvertisementDTO;
 import com.example.hashcartapp.entities.Advertisement;
 import com.example.hashcartapp.repository.AdvertisementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,9 +54,60 @@ public class AdvertisementService {
         return advertisementRepository.save(advertisement);
     }
 
+ /*  @Override
+    public AdvertisementDTO updateAdvertisement(Advertisement advertisement, Long advertisementId) {
+
+        // get book to be updated
+        AdvertisementDTO adInTable = getAdvertisementById(advertisementId);
+
+
+  if (adInTable != null) {
+
+            //update the attributes
+
+            adInTable.setDescription(advertisementDTO.getDescription());
+            adInTable.setType(advertisementDTO.getType());
+            adInTable.setCategory(advertisementDTO.getCategory());
+            adInTable.setPriceRangeLower(advertisementDTO.getPriceRangeLower());
+            adInTable.setPriceRangeHigher(advertisementDTO.getPriceRangeHigher());
+            adInTable.setCreationDate(advertisementDTO.getCreationDate());
+            adInTable.setClosedDate(advertisementDTO.getClosedDate());
+
+            // save the entity
+            advertisementRepository.save(adInTable);
+
+            // convert entity to dto
+            bookInTable = mapper.entityToDTO(bookEntity);
+        }
+
+        return bookInTable;
+    }*/
+
     public void deleteAdvertisement(Long advertisementId){
         advertisementRepository.deleteById(advertisementId);
     }
+
+    /*public List<AdvertisementDTO> findAdvertisementByCategory(){
+        List<AdvertisementDTO> listOfAdvertisements = advertisementRepository.findAdvertisementByCategory(
+        );
+        return listOfAdvertisements;
+
+    }*/
+
+
+
+    public Page<Advertisement> findAdvertisementByCategory(Pageable pageable) {
+        return advertisementRepository.findAdvertisementByCategoryOrderByDateDesc(pageable);
+    }
+
+    public Page<Advertisement> findAdvertisementByType(Pageable pageable) {
+        return advertisementRepository.findAdvertisementByTypeOrderByDateDesc(pageable);
+    }
+
+    public Page<Advertisement> findAdvertisementByLocation(Pageable pageable) {
+        return advertisementRepository.findAdvertisementByLocationOrderByDateDesc(pageable);
+    }
+
 
     public AdvertisementDTO  convertEntityToDTO(Advertisement advertisement){
         AdvertisementDTO advertisementDTO = new AdvertisementDTO();

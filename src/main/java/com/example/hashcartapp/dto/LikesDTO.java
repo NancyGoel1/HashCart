@@ -2,13 +2,12 @@ package com.example.hashcartapp.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.time.ZonedDateTime;
 
 @Data
-public class LikeDTO {
+public class LikesDTO {
 
-      private Long LikeId;
+      private Long likesId;
 
-      private ZonedDateTime LikeCreatedAt;
+      private ZonedDateTime likesCreatedAt;
 }
