@@ -32,27 +32,13 @@ public class AdvertisementController {
     }
 
     @GetMapping("/advertisementById")
-    public ResponseEntity<AdvertisementDTO> getAdvertisementById(@RequestParam(value = "advertisementId") Long advertisementId){
-        AdvertisementDTO advertisement= advertisementService.getAdvertisementById(advertisementId);
-        if(advertisement!=null){
-            return new ResponseEntity<AdvertisementDTO>(advertisement, HttpStatus.OK);
-        }
-        return new ResponseEntity<AdvertisementDTO>(HttpStatus.NOT_FOUND);
-    }
-
-	/*@PutMapping("/advertisement/{id}")
-	public AdvertisementDTO updateAdvertisement(@Valid @RequestBody Advertisement advertisement, @PathVariable Long advertisementId) {
-		AdvertisementDTO advertisementUpdated = null;
-
-		try {
-			advertisementUpdated= advertisementService.updateAdvertisement(advertisement, advertisementId);
-		} catch (NullPointerException e1) {
-			e1.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+    public ResponseEntity<AdvertisementDTO> getAdvertisementById(@RequestParam(value = "advertisementId") Long advertisementId) {
+		AdvertisementDTO advertisement = advertisementService.getAdvertisementById(advertisementId);
+		if (advertisement != null) {
+			return new ResponseEntity<AdvertisementDTO>(advertisement, HttpStatus.OK);
 		}
-		return advertisementUpdated;
-	}*/
+		return new ResponseEntity<AdvertisementDTO>(HttpStatus.NOT_FOUND);
+	}
 
 
 	/**
@@ -119,4 +105,18 @@ public class AdvertisementController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	/*@PutMapping("/advertisement/{id}")
+	public AdvertisementDTO updateAdvertisement(@Valid @RequestBody Advertisement advertisement, @PathVariable Long advertisementId) {
+		AdvertisementDTO advertisementUpdated = null;
+
+		try {
+			advertisementUpdated= advertisementService.updateAdvertisement(advertisement, advertisementId);
+		} catch (NullPointerException e1) {
+			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return advertisementUpdated;
+	}*/
 }

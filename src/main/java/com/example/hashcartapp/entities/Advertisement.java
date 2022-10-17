@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import java.sql.Blob;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,11 +26,17 @@ public class Advertisement {
 
     private String category;
 
+    @Lob
+    @Column(length=Integer.MAX_VALUE)
+    private Blob image;
+
     private String location;
 
     private Long priceRangeLower;
 
     private Long priceRangeHigher;
+
+    private String contactNo;
 
     private ZonedDateTime creationDate;
 

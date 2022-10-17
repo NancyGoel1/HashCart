@@ -1,14 +1,10 @@
 package com.example.hashcartapp.dto;
 
 import com.example.hashcartapp.entities.Advertisement;
-import lombok.AllArgsConstructor;
+import com.example.hashcartapp.entities.Comment;
+import com.example.hashcartapp.entities.Likes;
 import lombok.Data;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.time.ZonedDateTime;
-import java.util.Date;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Data
@@ -26,6 +22,7 @@ public class UserDTO {
     @NotBlank(message = "employee id is required")
     private Long empId;
 
+    @NotNull
     @Email(message = "Email should be valid")
     private String email;
 
@@ -39,6 +36,10 @@ public class UserDTO {
     private String designation;
 
     private List<Advertisement> advertisementList;
+
+    private Likes likes;
+
+    private List<Comment> comments;
 
 
 }

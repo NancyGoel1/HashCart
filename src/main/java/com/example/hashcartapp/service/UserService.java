@@ -63,6 +63,8 @@ public class UserService {
            userDTO.setDepartment(user.getDepartment());
            userDTO.setDesignation(user.getDesignation());
            userDTO.setAdvertisementList(user.getAdvertisements());
+           userDTO.setComments(user.getComments());
+           userDTO.setLikes(user.getLikes());
            return userDTO;
      }
 }

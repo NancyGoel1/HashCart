@@ -54,6 +54,42 @@ public class AdvertisementService {
         return advertisementRepository.save(advertisement);
     }
 
+
+    public void deleteAdvertisement(Long advertisementId){
+        advertisementRepository.deleteById(advertisementId);
+    }
+
+    public Page<Advertisement> findAdvertisementByCategory(Pageable pageable) {
+        return advertisementRepository.findAdvertisementByCategoryOrderByDateDesc(pageable);
+    }
+
+    public Page<Advertisement> findAdvertisementByType(Pageable pageable) {
+        return advertisementRepository.findAdvertisementByTypeOrderByDateDesc(pageable);
+    }
+
+    public Page<Advertisement> findAdvertisementByLocation(Pageable pageable) {
+        return advertisementRepository.findAdvertisementByLocationOrderByDateDesc(pageable);
+    }
+
+
+    public AdvertisementDTO  convertEntityToDTO(Advertisement advertisement){
+        AdvertisementDTO advertisementDTO = new AdvertisementDTO();
+        advertisementDTO.setAdvertisementId(advertisement.getAdvertisementId());
+        advertisementDTO.setDescription(advertisement.getDescription());
+        advertisementDTO.setType(advertisement.getType());
+        advertisementDTO.setCategory(advertisement.getCategory());
+        advertisementDTO.setImage(advertisement.getImage());
+        advertisementDTO.setPriceRangeLower(advertisement.getPriceRangeLower());
+        advertisementDTO.setPriceRangeHigher(advertisement.getPriceRangeHigher());
+        advertisementDTO.setContactNo(advertisement.getContactNo());
+        advertisementDTO.setCreationDate(advertisement.getCreationDate());
+        advertisementDTO.setClosedDate(advertisement.getClosedDate());
+        advertisementDTO.setLikes(advertisement.getLikes());
+        advertisementDTO.setComments(advertisement.getComments());
+        return advertisementDTO;
+    }
+
+
  /*  @Override
     public AdvertisementDTO updateAdvertisement(Advertisement advertisement, Long advertisementId) {
 
@@ -77,48 +113,9 @@ public class AdvertisementService {
             advertisementRepository.save(adInTable);
 
             // convert entity to dto
-            bookInTable = mapper.entityToDTO(bookEntity);
+            adInTable = mapper.entityToDTO(adEntity);
         }
 
-        return bookInTable;
+        return adInTable;
     }*/
-
-    public void deleteAdvertisement(Long advertisementId){
-        advertisementRepository.deleteById(advertisementId);
-    }
-
-    /*public List<AdvertisementDTO> findAdvertisementByCategory(){
-        List<AdvertisementDTO> listOfAdvertisements = advertisementRepository.findAdvertisementByCategory(
-        );
-        return listOfAdvertisements;
-
-    }*/
-
-
-
-    public Page<Advertisement> findAdvertisementByCategory(Pageable pageable) {
-        return advertisementRepository.findAdvertisementByCategoryOrderByDateDesc(pageable);
-    }
-
-    public Page<Advertisement> findAdvertisementByType(Pageable pageable) {
-        return advertisementRepository.findAdvertisementByTypeOrderByDateDesc(pageable);
-    }
-
-    public Page<Advertisement> findAdvertisementByLocation(Pageable pageable) {
-        return advertisementRepository.findAdvertisementByLocationOrderByDateDesc(pageable);
-    }
-
-
-    public AdvertisementDTO  convertEntityToDTO(Advertisement advertisement){
-        AdvertisementDTO advertisementDTO = new AdvertisementDTO();
-        advertisementDTO.setAdvertisementId(advertisement.getAdvertisementId());
-        advertisementDTO.setDescription(advertisement.getDescription());
-        advertisementDTO.setType(advertisement.getType());
-        advertisementDTO.setCategory(advertisement.getCategory());
-        advertisementDTO.setPriceRangeLower(advertisement.getPriceRangeLower());
-        advertisementDTO.setPriceRangeHigher(advertisement.getPriceRangeHigher());
-        advertisementDTO.setCreationDate(advertisement.getCreationDate());
-        advertisementDTO.setClosedDate(advertisement.getClosedDate());
-        return advertisementDTO;
-    }
 }
