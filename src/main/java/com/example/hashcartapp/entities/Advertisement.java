@@ -28,7 +28,7 @@ public class Advertisement {
 
     @Lob
     @Column(length=Integer.MAX_VALUE)
-    private Blob image;
+    private String image;
 
     private String location;
 
@@ -52,6 +52,9 @@ public class Advertisement {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
     private List<Likes> likes;
+
+    public Advertisement(Long advertisementId, String description, String type, String category, String image, String location, Long priceRangeLower,Long priceRangeHigher, String contactNo) {
+    }
 
 }
 

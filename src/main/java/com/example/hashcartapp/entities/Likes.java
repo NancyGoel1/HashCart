@@ -3,10 +3,7 @@ package com.example.hashcartapp.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import javax.persistence.*;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -19,8 +16,7 @@ public class Likes {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long likesId;
 
-    @LastModifiedDate
-    private Instant likesCreatedAt;
+    private ZonedDateTime likesCreatedAt;
 
     @OneToOne
     private User user;

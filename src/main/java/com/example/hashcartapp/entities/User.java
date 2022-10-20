@@ -47,4 +47,6 @@ public class User {
     @JsonIgnore
     private List<Comment> comments;
 
+    public User(Long userId, String name, String role, Long empId, String email, String password, String department, String designation) {
+    }
 }

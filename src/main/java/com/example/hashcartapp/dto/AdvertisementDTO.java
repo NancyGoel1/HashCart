@@ -24,7 +24,7 @@ public class AdvertisementDTO {
     @NotBlank(message = "Category is required")
     private String category;
 
-    private Blob image;
+    private String image;
 
     @NotBlank(message = "Location is required")
     private String location;
