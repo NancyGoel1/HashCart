@@ -2,7 +2,6 @@ package com.example.hashcartapp.service;
 
 import com.example.hashcartapp.dto.AdvertisementDTO;
 import com.example.hashcartapp.entities.Advertisement;
-import com.example.hashcartapp.entities.User;
 import com.example.hashcartapp.repository.AdvertisementRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.hibernate.internal.CoreLogging.logger;
@@ -29,6 +27,11 @@ public class AdvertisementService {
 
     @Autowired
     ModelMapper modelMapper;
+
+/*
+    @Autowired
+    ModelMapper modelMapper;
+*/
 
     public List<AdvertisementDTO> getAllAdvertisements(){
         return advertisementRepository.findAll()
@@ -71,37 +74,24 @@ public class AdvertisementService {
         return advertisementRepository.findAdvertisementByCategoryOrderByDateDesc(category,pageable);
     }
 
-    public Page<Advertisement> findAdvertisementByType(Pageable pageable) {
-        return advertisementRepository.findAdvertisementByTypeOrderByDateDesc(pageable);
+    public Page<Advertisement> findAdvertisementByType(String type,Pageable pageable) {
+        return advertisementRepository.findAdvertisementByTypeOrderByDateDesc(type,pageable);
     }
 
-    public Page<Advertisement> findAdvertisementByLocation(Pageable pageable) {
-        return advertisementRepository.findAdvertisementByLocationOrderByDateDesc(pageable);
+    public Page<Advertisement> findAdvertisementByLocation(String location,Pageable pageable) {
+        return advertisementRepository.findAdvertisementByLocationOrderByDateDesc(location,pageable);
     }
 
 
     public AdvertisementDTO  convertEntityToDTO(Advertisement advertisement){
-        AdvertisementDTO advertisementDTO = new AdvertisementDTO();
-        //AdvertisementDTO advertisementDTO = this.modelMapper.map(advertisement,AdvertisementDTO.class);
-        advertisementDTO.setAdvertisementId(advertisement.getAdvertisementId());
-        advertisementDTO.setDescription(advertisement.getDescription());
-        advertisementDTO.setType(advertisement.getType());
-        advertisementDTO.setCategory(advertisement.getCategory());
-        advertisementDTO.setLocation(advertisement.getLocation());
-        advertisementDTO.setImage(advertisement.getImage());
-        advertisementDTO.setPriceRangeLower(advertisement.getPriceRangeLower());
-        advertisementDTO.setPriceRangeHigher(advertisement.getPriceRangeHigher());
-        advertisementDTO.setContactNo(advertisement.getContactNo());
-        advertisementDTO.setCreationDate(advertisement.getCreationDate());
-        advertisementDTO.setClosedDate(advertisement.getClosedDate());
-        advertisementDTO.setLikes(advertisement.getLikes());
-        advertisementDTO.setComments(advertisement.getComments());
+        AdvertisementDTO advertisementDTO = this.modelMapper.map(advertisement,AdvertisementDTO.class);
         return advertisementDTO;
     }
 
     public Advertisement convertDTOToEntity(AdvertisementDTO advertisementDTO)
     {
-        Advertisement advertisement = new Advertisement();
+        Advertisement advertisement=this.modelMapper.map(advertisementDTO,Advertisement.class);
+      /*  Advertisement advertisement = new Advertisement();
         advertisement.setAdvertisementId(advertisementDTO.getAdvertisementId());
         advertisement.setCategory(advertisementDTO.getCategory());
         advertisement.setDescription(advertisementDTO.getDescription());
@@ -115,16 +105,13 @@ public class AdvertisementService {
         advertisement.setPriceRangeHigher(advertisementDTO.getPriceRangeHigher());
         advertisement.setLikes(advertisementDTO.getLikes());
         advertisement.setComments(advertisementDTO.getComments());
-        return advertisement;
+      */  return advertisement;
     }
 
-    /*public AdvertisementDTO updateAdvertisement(AdvertisementDTO advertisementDTO, Long advertisementId) {
+    public AdvertisementDTO updateAdvertisement(AdvertisementDTO advertisementDTO, Long advertisementId) {
 
-        // get book to be updated
         AdvertisementDTO adInTable = getAdvertisementById(advertisementId);
         if(adInTable != null) {
-
-            //update the attributes
             adInTable.setAdvertisementId(advertisementDTO.getAdvertisementId());
             adInTable.setDescription(advertisementDTO.getDescription());
             adInTable.setType(advertisementDTO.getType());
@@ -139,24 +126,15 @@ public class AdvertisementService {
             adInTable.setComments(advertisementDTO.getComments());
 
             AdvertisementDTO advertisementFound = advertisementService.getAdvertisementById(adInTable.getAdvertisementId());
-//  Advertisement advertisementToSave = adInTable.map(this::convertDTOToEntity).get();
-            //Author author = authorService.getAuthorById(bookInTable.getAuthorId());
 
-            Advertisement advertisementEntity = this.modelMapper.map(adInTable,Advertisement.class);
-            // convert dto to entity
-          //  Book bookEntity = mapper.DTOToEntity(bookInTable, author);
+            //    Advertisement advertisementToSave = adInTable.map(this::convertDTOToEntity).get();
+            Advertisement advertisementEntity = this.modelMapper.map(adInTable, Advertisement.class);
 
             advertisementRepository.save(advertisementEntity);
-            // save the entity
-            //bookRepository.save(bookEntity);
-            adInTable = this.modelMapper.map(advertisementEntity,AdvertisementDTO.class);
-            // convert entity to dto
-          //  bookInTable = mapper.entityToDTO(bookEntity);
 
-            // convert entity to dt
+            adInTable = this.modelMapper.map(advertisementEntity, AdvertisementDTO.class);
         }
-
         return adInTable;
-    }*/
+    }
 
 }

@@ -6,7 +6,6 @@ import com.example.hashcartapp.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -22,6 +21,7 @@ public class UserService {
 
      @Autowired
      ModelMapper modelMapper;
+
 
     public List<UserDTO> getAllUsers(){
          return userRepository.findAll()
@@ -57,19 +57,7 @@ public class UserService {
 
 
      public UserDTO convertEntityToDTO(User user){
-           //UserDTO userDTO = new UserDTO();
            UserDTO userDTO = this.modelMapper.map(user, UserDTO.class);
-         /*  userDTO.setUserId(user.getUserId());
-           userDTO.setName(user.getName());
-           userDTO.setRole(user.getRole());
-           userDTO.setEmpId(user.getEmpId());
-           userDTO.setEmail(user.getEmail());
-          // userDTO.setPassword(user.getPassword());
-           userDTO.setDepartment(user.getDepartment());
-           userDTO.setDesignation(user.getDesignation());
-           userDTO.setAdvertisementList(user.getAdvertisements());
-           //userDTO.setComments(user.getComments());
-           //userDTO.setLikes(user.getLikes());*/
            return userDTO;
      }
 }

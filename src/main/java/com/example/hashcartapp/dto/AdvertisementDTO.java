@@ -29,20 +29,20 @@ public class AdvertisementDTO {
     @NotBlank(message = "Location is required")
     private String location;
 
-    @NotBlank(message = " Lower price is required")
+    @NotNull(message = " Lower price is required")
     private Long priceRangeLower;
 
-    @NotBlank(message = "Higher price is required")
+    @NotNull(message = "Higher price is required")
     private Long priceRangeHigher;
 
-    @NotNull
+    @NotBlank
     @Digits(integer = 10,fraction = 0 , message = "enter correct phone")
     private String contactNo;
 
-    @NotBlank(message = "Creation date is required")
+    @NotNull(message = "Creation date is required")
     private ZonedDateTime creationDate;
 
-    @NotBlank(message = "Closed date is required")
+    @NotNull(message = "Closed date is required")
     private ZonedDateTime closedDate;
 
     private List<Comment> comments;

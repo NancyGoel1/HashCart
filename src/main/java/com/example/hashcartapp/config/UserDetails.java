@@ -7,10 +7,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Arrays;
 import java.util.Collection;
-
 public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
 
-    private User user;
+   private User user;
 
     public UserDetails(User user) {
         super();
@@ -52,5 +51,5 @@ public class UserDetails implements org.springframework.security.core.userdetail
     @Override
     public boolean isEnabled() {
         return true;
-    }
-}
+   } }
+

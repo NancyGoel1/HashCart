@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
-import java.sql.Blob;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -38,9 +39,9 @@ public class Advertisement {
 
     private String contactNo;
 
-    private ZonedDateTime creationDate;
+    private ZonedDateTime creationDate = ZonedDateTime.now(ZoneId.of("UTC"));;
 
-    private ZonedDateTime closedDate;
+    private ZonedDateTime closedDate = ZonedDateTime.now(ZoneId.of("UTC"));;
 
     @ManyToOne
     private User user;
@@ -53,7 +54,7 @@ public class Advertisement {
     @JsonIgnore
     private List<Likes> likes;
 
-    public Advertisement(Long advertisementId, String description, String type, String category, String image, String location, Long priceRangeLower,Long priceRangeHigher, String contactNo) {
+    public Advertisement(Long advertisementId, String description, String type, String category, String image, String location, Long priceRangeLower,Long priceRangeHigher, String contactNo, String creationDate, String closedDate) {
     }
 
 }

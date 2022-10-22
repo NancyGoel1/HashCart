@@ -5,7 +5,6 @@ import com.example.hashcartapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -22,5 +21,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserDetails userDetails = new UserDetails(user);
 
         return userDetails;
-    }
-}
+    }}

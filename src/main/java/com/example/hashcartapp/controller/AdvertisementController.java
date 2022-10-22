@@ -60,21 +60,23 @@ public class AdvertisementController {
 	/**
 	 *  Show advertisement by type
 	 */
-	@GetMapping("/advertisementByType")
-	public Page<Advertisement> findAdvertisementByType(@RequestParam(value = "page", defaultValue = "1") Integer page,
-														   @RequestParam(value = "size", defaultValue = "3") Integer size) {
+	@GetMapping("/advertisementByType/{type}")
+	public Page<Advertisement> findAdvertisementByType(@PathVariable("type") String type,
+													   @RequestParam(value = "page", defaultValue = "1") Integer page,
+													   @RequestParam(value = "size", defaultValue = "3") Integer size) {
 		PageRequest request = PageRequest.of(page - 1, size);
-		return advertisementService.findAdvertisementByType(request);
+		return advertisementService.findAdvertisementByType(type,request);
 	}
 
 	/**
 	 *  Show advertisement by location
 	 */
-	@GetMapping("/advertisementByLocation")
-	public Page<Advertisement> findAdvertisementByLocation(@RequestParam(value = "page", defaultValue = "1") Integer page,
-													   @RequestParam(value = "size", defaultValue = "3") Integer size) {
+	@GetMapping("/advertisementByLocation/{location}")
+	public Page<Advertisement> findAdvertisementByLocation(@PathVariable("location") String location,
+														   @RequestParam(value = "page", defaultValue = "1") Integer page,
+													       @RequestParam(value = "size", defaultValue = "3") Integer size) {
 		PageRequest request = PageRequest.of(page - 1, size);
-		return advertisementService.findAdvertisementByLocation(request);
+		return advertisementService.findAdvertisementByLocation(location,request);
 	}
 
 //	@Secured({"admin", "user"})
@@ -109,8 +111,8 @@ public class AdvertisementController {
 	 * @param advertisementId
 	 * @return It deletes the advertisement
 	 */
-     @DeleteMapping("/advertisement")
-	public ResponseEntity<Advertisement> deleteAdvertisement(@Valid @RequestParam(value = "advertisementId") Long advertisementId) {
+     @DeleteMapping("/advertisement/{advertisementId}")
+	public ResponseEntity<Advertisement> deleteAdvertisement(@Valid @PathVariable("advertisementId") Long advertisementId) {
 		try {
 			advertisementService.deleteAdvertisement(advertisementId);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -119,8 +121,8 @@ public class AdvertisementController {
 		}
 	}
 
-	/*@PutMapping("/advertisement/{id}")
-	public AdvertisementDTO updateAdvertisement(@Valid @RequestBody AdvertisementDTO advertisement, @PathVariable Long advertisementId) {
+	@PutMapping("/advertisement/{advertisementId}")
+	public AdvertisementDTO updateAdvertisement(@Valid @RequestBody AdvertisementDTO advertisement, @PathVariable("advertisementId") Long advertisementId) {
 		AdvertisementDTO advertisementUpdated = null;
 
 		try {
@@ -131,5 +133,5 @@ public class AdvertisementController {
 			e.printStackTrace();
 		}
 		return advertisementUpdated;
-	}*/
+	}
 }

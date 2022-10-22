@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -18,11 +19,12 @@ public class Comment {
 
     private String commentText;
 
-    private ZonedDateTime commentCreationAt;
+    private ZonedDateTime commentCreationAt= ZonedDateTime.now(ZoneId.of("UTC"));
 
     @ManyToOne
     User user;
 
     @ManyToOne
     Advertisement advertisement;
+
 }

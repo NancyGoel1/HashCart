@@ -54,7 +54,7 @@ public class UserController {
 	 * @param user
 	 * @return It registers the new user
 	 */
-	@PostMapping("/user")
+	@PostMapping("/signup")
 	@ExceptionHandler(HttpClientErrorException.class)
 	public ResponseEntity<User> registerUser(@Valid @RequestBody User user) {
 		try {
