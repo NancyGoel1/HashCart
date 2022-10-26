@@ -3,6 +3,8 @@ package com.example.hashcartapp.controller;
 import com.example.hashcartapp.dto.AdvertisementDTO;
 import com.example.hashcartapp.entities.Advertisement;
 import com.example.hashcartapp.service.AdvertisementService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -18,8 +21,10 @@ public class AdvertisementController {
     @Autowired
     private AdvertisementService advertisementService;
 
+	Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
+
 	/**
-	 *
+	 * It shows all the advertisements
 	 * @return It returns details of all the advertisements
 	 */
 	@GetMapping("/advertisement")
@@ -28,9 +33,9 @@ public class AdvertisementController {
     }
 
 	/**
-	 *
+	 * It shows the detail of the advertisement of any particular id
 	 * @param advertisementId
-	 * @return  It returns the advertisement of any particular id
+	 * @return  It returns detail of the advertisement
 	 */
 	@GetMapping("/advertisement/{advertisementId}")
     public ResponseEntity<AdvertisementDTO> getAdvertisementById(@PathVariable Long advertisementId) {
@@ -38,7 +43,7 @@ public class AdvertisementController {
 		if (advertisement != null) {
 			return new ResponseEntity<AdvertisementDTO>(advertisement, HttpStatus.OK);
 		}
-		return new ResponseEntity<AdvertisementDTO>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<AdvertisementDTO>(HttpStatus.BAD_REQUEST);
 	}
 
 
@@ -82,7 +87,7 @@ public class AdvertisementController {
 //	@Secured({"admin", "user"})
 
 	/**
-	 *
+	 * User is creating a new advertisement
 	 * @param advertisement
 	 * @return User post any new advertisement
 	 */
@@ -107,7 +112,7 @@ public class AdvertisementController {
     //@Secured({"admin", "user"})
 
 	/**
-	 *
+	 * User is deleting the advertisement
 	 * @param advertisementId
 	 * @return It deletes the advertisement
 	 */
@@ -121,6 +126,45 @@ public class AdvertisementController {
 		}
 	}
 
+	/**
+	 * It checks whether the advertisement is active or closed
+	 * @param advertisementId
+	 * @return It gives the advertisement is active or closed as true or false
+	 */
+	@GetMapping("/advertisementActiveStatus/{advertisementId}")
+	public boolean isAdvertisementActive(@Valid @PathVariable("advertisementId") Long advertisementId) {
+		try {
+			return advertisementService.isAdvertisementActive(advertisementId);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return false;
+		}
+	}
+
+	/**
+	 *
+	 * @param advertisementId
+	 * @return It shows the status of advertisement as deleted
+	 */
+
+/*	@GetMapping("/advertisementDeletedStatus/{advertisementId}")
+	public boolean isAdvertisementDeleted(@Valid @PathVariable("advertisementId") Long advertisementId) {
+		try {
+			logger.info("{}",advertisementService.isAdvertisementDeleted(advertisementId));
+			return advertisementService.isAdvertisementDeleted(advertisementId);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return false;
+		}
+	}*/
+
+	/**
+	 * User can change the details of the advertisement
+	 * @param advertisement
+	 * @param advertisementId
+	 * @return It updates the advertisement
+	 */
+
 	@PutMapping("/advertisement/{advertisementId}")
 	public AdvertisementDTO updateAdvertisement(@Valid @RequestBody AdvertisementDTO advertisement, @PathVariable("advertisementId") Long advertisementId) {
 		AdvertisementDTO advertisementUpdated = null;
@@ -128,9 +172,9 @@ public class AdvertisementController {
 		try {
 			advertisementUpdated= advertisementService.updateAdvertisement(advertisement, advertisementId);
 		} catch (NullPointerException e1) {
-			e1.printStackTrace();
+			logger.error(e1.getMessage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return advertisementUpdated;
 	}

@@ -1,15 +1,21 @@
 package com.example.hashcartapp.service;
 
+import com.example.hashcartapp.controller.AdvertisementController;
 import com.example.hashcartapp.dto.CommentDTO;
 import com.example.hashcartapp.entities.Advertisement;
 import com.example.hashcartapp.entities.Comment;
 import com.example.hashcartapp.repository.AdvertisementRepository;
 import com.example.hashcartapp.repository.CommentRepository;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -22,6 +28,39 @@ public class CommentService {
 
       @Autowired
       ModelMapper modelMapper;
+
+      Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
+
+
+    public List<CommentDTO> getAllComments(){
+        return commentRepository.findAll()
+                .stream()
+                .map(this::convertEntityToDTO)
+                .collect(Collectors.toList());
+    }
+
+       public CommentDTO getCommentById(Long commentId){
+
+
+           CommentDTO commentToReturn = null;
+
+           try {
+               Optional<Comment> commentFound = commentRepository.findById(commentId);
+
+               if (commentFound.isPresent()) {
+                   commentToReturn = commentFound.map(this::convertEntityToDTO).get();
+               }
+
+           } catch (NoSuchElementException e) {
+               logger.error(e.getMessage());
+           } catch (IllegalArgumentException e1) {
+               logger.error(e1.getMessage());
+           } catch (Exception e2) {
+               logger.error(e2.getMessage());
+           }
+           return commentToReturn;
+
+      }
 
       public CommentDTO createComment(CommentDTO commentDTO, Long advertisementId){
 
@@ -39,15 +78,13 @@ public class CommentService {
       }
 
       public void deleteComment(Long commentId){
-          Comment comment = this.commentRepository.findById(commentId).
-                  orElseThrow(()-> new NoSuchElementException("Comment not found"));
-          this.commentRepository.delete(comment);
+          this.commentRepository.deleteById(commentId);
       }
-    /*  public CommentDTO convertEntityToDTO(Comment comment)
+     public CommentDTO convertEntityToDTO(Comment comment)
       {
-          CommentDTO commentDTO = new CommentDTO();
-            UserDTO userDTO = this.modelMapper.map(user, UserDTO.class);
-            CommentDTO commentDTO = this.modelMapper
+          CommentDTO commentDTO = this.modelMapper.map(comment, CommentDTO.class);
           return commentDTO;
-      }*/
+      }
+
+
 }

@@ -3,10 +3,10 @@ package com.example.hashcartapp.dto;
 import com.example.hashcartapp.entities.Comment;
 import com.example.hashcartapp.entities.Likes;
 import lombok.Data;
+
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.sql.Blob;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -44,6 +44,10 @@ public class AdvertisementDTO {
 
     @NotNull(message = "Closed date is required")
     private ZonedDateTime closedDate;
+
+    private boolean isAdvertisementDeleted = false;
+
+    private boolean isActive = true;
 
     private List<Comment> comments;
 

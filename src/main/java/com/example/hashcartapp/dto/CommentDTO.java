@@ -15,6 +15,16 @@ public class CommentDTO {
 
     private ZonedDateTime commentCreationAt;
 
-   /* private CommentDTO(long l, String this_car_is_too_expensive) {
+    /*public CommentDTO(Long commentId, String commentText, String commentCreationAt) {
     }*/
+
+    public CommentDTO(Long commentId, String commentText, ZonedDateTime commentCreationAt) {
+        this.commentId = commentId;
+        this.commentText = commentText;
+        this.commentCreationAt = commentCreationAt;
+    }
+
+    public CommentDTO(){
+
+    }
 }

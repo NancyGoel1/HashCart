@@ -35,16 +35,7 @@ public class LikesService {
        }
 
        public void dislike(Long likesId){
-              Likes likes = this.likesRepository.findById(likesId).
-                      orElseThrow(()-> new NoSuchElementException("Likes not found"));
-              this.likesRepository.delete(likes);
+              this.likesRepository.deleteById(likesId);
        }
 
-
-       /*public LikesDTO convertEntityToDTO(Likes likes){
-              LikesDTO likesDTO = new LikesDTO();
-              likesDTO.setLikesId(likes.getLikesId());
-              likesDTO.setLikesCreatedAt(likes.getLikesCreatedAt());
-              return likesDTO;
-       }*/
 }

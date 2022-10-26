@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -16,7 +17,7 @@ public class Likes {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long likesId;
 
-    private ZonedDateTime likesCreatedAt;
+    private ZonedDateTime likesCreatedAt = ZonedDateTime.now(ZoneId.of("UTC"));
 
     @OneToOne
     private User user;

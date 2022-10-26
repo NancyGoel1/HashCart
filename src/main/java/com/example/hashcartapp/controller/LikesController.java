@@ -15,12 +15,24 @@ public class LikesController {
     @Autowired
     LikesService likesService;
 
+    /**
+     * User can like the advertisement
+     * @param likesDTO
+     * @param advertisementId
+     * @return User can like the particular advertisement
+     */
+
     @PostMapping("/advertisement/{advertisementId}/likes")
     public ResponseEntity<LikesDTO> createLike(@Valid @RequestBody LikesDTO likesDTO, @PathVariable Long advertisementId){
         LikesDTO likes = this.likesService.createLike(likesDTO, advertisementId);
         return new ResponseEntity<LikesDTO>(likes, HttpStatus.CREATED);
     }
 
+    /**
+     * User can dislike the advertisement
+     * @param likesId
+     * @return User can dislike the particular advertisement
+     */
     @DeleteMapping("likes/{likesId}")
     public ResponseEntity<ApiResponse> disLike(@Valid @PathVariable Long likesId){
         this.likesService.dislike(likesId);

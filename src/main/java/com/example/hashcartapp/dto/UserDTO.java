@@ -35,6 +35,8 @@ public class UserDTO {
     @NotBlank(message = "designation is required")
     private String designation;
 
+    private boolean isBanned=false;
+
     private List<Advertisement> advertisementList;
 
     private Likes likes;

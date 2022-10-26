@@ -1,4 +1,5 @@
 package com.example.hashcartapp.controller;
+
 import com.example.hashcartapp.dto.UserDTO;
 import com.example.hashcartapp.entities.User;
 import com.example.hashcartapp.service.UserService;
@@ -8,10 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+
 import javax.validation.Valid;
 import java.util.List;
-
-import static org.hibernate.internal.CoreLogging.logger;
 
 @RestController
 public class UserController {
@@ -23,7 +23,7 @@ public class UserController {
 
 	//@PreAuthorize("hasRole('admin')")
 	/**
-	 *
+	 * It shows details of all users
 	 * @return It returns details of all the users
 	 */
 	@GetMapping("/user")
@@ -34,7 +34,7 @@ public class UserController {
 
 	//@PreAuthorize("hasRole('user')")
 	/**
-	 *
+	 * It shows detail of a user on any particular id
 	 * @param userId
 	 * @return It returns the details of any particular user
 	 */
@@ -50,9 +50,9 @@ public class UserController {
 	}
 
 	/**
-	 *
+	 * A new user can register
 	 * @param user
-	 * @return It registers the new user
+	 * @return It post the new user
 	 */
 	@PostMapping("/signup")
 	@ExceptionHandler(HttpClientErrorException.class)
@@ -65,9 +65,9 @@ public class UserController {
 				return new ResponseEntity<User>(userSaved, HttpStatus.CREATED);
 			}
 
-			return new ResponseEntity<User>(HttpStatus.CONFLICT);
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 		} catch (HttpClientErrorException e) {
-			return new ResponseEntity<User>(HttpStatus.CONFLICT);
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);

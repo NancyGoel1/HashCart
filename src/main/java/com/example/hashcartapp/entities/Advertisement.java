@@ -39,9 +39,13 @@ public class Advertisement {
 
     private String contactNo;
 
-    private ZonedDateTime creationDate = ZonedDateTime.now(ZoneId.of("UTC"));;
+    private ZonedDateTime creationDate = ZonedDateTime.now(ZoneId.of("UTC"));
 
-    private ZonedDateTime closedDate = ZonedDateTime.now(ZoneId.of("UTC"));;
+    private ZonedDateTime closedDate;
+
+    private boolean isActive = true;
+
+    private boolean isAdvertisementDeleted = false;
 
     @ManyToOne
     private User user;
@@ -56,6 +60,8 @@ public class Advertisement {
 
     public Advertisement(Long advertisementId, String description, String type, String category, String image, String location, Long priceRangeLower,Long priceRangeHigher, String contactNo, String creationDate, String closedDate) {
     }
+
+
 
 }
 

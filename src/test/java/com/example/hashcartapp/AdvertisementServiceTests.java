@@ -65,8 +65,8 @@ public class AdvertisementServiceTests {
 
     @Test
     public void given_advertisement_id_then_should_delete_advertisement_of_that_id(){
-        advertisementService.deleteAdvertisement(12L);
-        verify(advertisementRepository,times(1)).deleteById(12L);
+        advertisementService.deleteAdvertisement(49L);
+        verify(advertisementRepository,times(1)).deleteById(49L);
     }
 
 

@@ -1,20 +1,22 @@
 package com.example.hashcartapp.service;
 
+import com.example.hashcartapp.controller.AdvertisementController;
 import com.example.hashcartapp.dto.AdvertisementDTO;
 import com.example.hashcartapp.entities.Advertisement;
 import com.example.hashcartapp.repository.AdvertisementRepository;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.hibernate.internal.CoreLogging.logger;
 
 @Service
 public class AdvertisementService {
@@ -28,10 +30,7 @@ public class AdvertisementService {
     @Autowired
     ModelMapper modelMapper;
 
-/*
-    @Autowired
-    ModelMapper modelMapper;
-*/
+    Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
 
     public List<AdvertisementDTO> getAllAdvertisements(){
         return advertisementRepository.findAll()
@@ -39,6 +38,26 @@ public class AdvertisementService {
                 .map(this::convertEntityToDTO)
                 .collect(Collectors.toList());
     }
+
+    public boolean isAdvertisementActive(Long advertisementId){
+        ZonedDateTime activeDate = advertisementRepository.findById(advertisementId).get().getClosedDate();
+        ZonedDateTime todayDate= ZonedDateTime.now();
+        if(todayDate.isAfter(activeDate))
+            advertisementRepository.findById(advertisementId).get().setActive(false);
+        return advertisementRepository.findById(advertisementId).get().isActive();
+    }
+
+
+   /* public boolean isAdvertisementDeleted(Long advertisementId){
+       boolean adDeleted = advertisementRepository.findById(advertisementId).get().isAdvertisementDeleted();
+       if(adDeleted == false)
+         advertisementRepository.findById(advertisementId).get().setAdvertisementDeleted(true);
+        boolean b = advertisementRepository.findById(advertisementId).get().isAdvertisementDeleted();
+        advertisementRepository.deleteAd(advertisementId);
+        logger.info("{}",advertisementService.isAdvertisementDeleted(advertisementId));
+
+        return true;
+    }*/
 
     public AdvertisementDTO getAdvertisementById(Long advertisementId) {
         AdvertisementDTO advertisementToReturn = null;
@@ -51,11 +70,12 @@ public class AdvertisementService {
             }
 
         } catch (NoSuchElementException e) {
-            logger("No advertisement found in the table having this id");
+            logger.error(e.getMessage());
         } catch (IllegalArgumentException e1) {
-            e1.printStackTrace();
+            logger.error(e1.getMessage());
         } catch (Exception e2) {
-            e2.printStackTrace();
+            logger.error(e2.getMessage());
+
         }
         return advertisementToReturn;
     }
@@ -71,7 +91,7 @@ public class AdvertisementService {
     }
 
     public Page<Advertisement> findAdvertisementByCategory(String category, Pageable pageable) {
-        return advertisementRepository.findAdvertisementByCategoryOrderByDateDesc(category,pageable);
+         return advertisementRepository.findAdvertisementByCategoryOrderByDateDesc(category,pageable);
     }
 
     public Page<Advertisement> findAdvertisementByType(String type,Pageable pageable) {
@@ -91,21 +111,7 @@ public class AdvertisementService {
     public Advertisement convertDTOToEntity(AdvertisementDTO advertisementDTO)
     {
         Advertisement advertisement=this.modelMapper.map(advertisementDTO,Advertisement.class);
-      /*  Advertisement advertisement = new Advertisement();
-        advertisement.setAdvertisementId(advertisementDTO.getAdvertisementId());
-        advertisement.setCategory(advertisementDTO.getCategory());
-        advertisement.setDescription(advertisementDTO.getDescription());
-        advertisement.setType(advertisementDTO.getType());
-        advertisement.setImage(advertisementDTO.getImage());
-        advertisement.setLocation(advertisementDTO.getLocation());
-        advertisement.setContactNo(advertisementDTO.getContactNo());
-        advertisement.setCreationDate(advertisementDTO.getCreationDate());
-        advertisement.setClosedDate(advertisementDTO.getClosedDate());
-        advertisement.setPriceRangeLower(advertisementDTO.getPriceRangeLower());
-        advertisement.setPriceRangeHigher(advertisementDTO.getPriceRangeHigher());
-        advertisement.setLikes(advertisementDTO.getLikes());
-        advertisement.setComments(advertisementDTO.getComments());
-      */  return advertisement;
+        return advertisement;
     }
 
     public AdvertisementDTO updateAdvertisement(AdvertisementDTO advertisementDTO, Long advertisementId) {

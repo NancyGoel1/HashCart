@@ -1,9 +1,11 @@
 package com.example.hashcartapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,18 +22,22 @@ public class User {
 
     private String role;
 
+    @JsonProperty(value = "empId", access = JsonProperty.Access.WRITE_ONLY)
     @Column(unique = true)
     private Long empId;
 
     @Column(unique = true)
     private String email;
 
+    @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
     @Column(length = 50)
     private String password;
 
     private String department;
 
     private String designation;
+
+   private boolean isBanned=false;
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")

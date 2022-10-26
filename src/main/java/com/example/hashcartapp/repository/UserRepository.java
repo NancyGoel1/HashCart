@@ -12,4 +12,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("select u from User u where u.email= :email")
     public User getUserByUserName(@Param("email") String email);
 
+   /* @Query(value = "select is_banned from User where user_id= :userId",nativeQuery = true)
+    public User isUserBanned(@Param("userId") Long userId);*/
+
 }

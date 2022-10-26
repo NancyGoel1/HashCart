@@ -1,17 +1,19 @@
 package com.example.hashcartapp.service;
 
+import com.example.hashcartapp.controller.AdvertisementController;
 import com.example.hashcartapp.dto.UserDTO;
 import com.example.hashcartapp.entities.User;
 import com.example.hashcartapp.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.hibernate.internal.CoreLogging.logger;
 
 @Service
 public class UserService {
@@ -22,6 +24,7 @@ public class UserService {
      @Autowired
      ModelMapper modelMapper;
 
+    Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
 
     public List<UserDTO> getAllUsers(){
          return userRepository.findAll()
@@ -31,6 +34,9 @@ public class UserService {
      }
 
     public UserDTO getUserById(Long userId) {
+//         if(userRepository.isUserBanned(userId).equals(true)) {
+//             logger("This user is temporarily banned");
+//         }
          UserDTO userToReturn = null;
 
          try {
@@ -41,12 +47,11 @@ public class UserService {
              }
 
          } catch (NoSuchElementException e) {
-             logger("No user found in the table having this id");
-             e.printStackTrace();
+             logger.error(e.getMessage());
          } catch (IllegalArgumentException e1) {
-             e1.printStackTrace();
+             logger.error(e1.getMessage());
          } catch (Exception e2) {
-             e2.printStackTrace();
+             logger.error(e2.getMessage());
          }
          return userToReturn;
      }

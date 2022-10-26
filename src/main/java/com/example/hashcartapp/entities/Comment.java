@@ -27,4 +27,6 @@ public class Comment {
     @ManyToOne
     Advertisement advertisement;
 
+    /*public Comment(Long l, String commentText, String ZonedDateTime) {
+    }*/
 }
