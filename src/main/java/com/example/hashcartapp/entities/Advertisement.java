@@ -1,13 +1,15 @@
 package com.example.hashcartapp.entities;
 
+import com.example.hashcartapp.constants.Category;
+import com.example.hashcartapp.constants.Location;
+import com.example.hashcartapp.constants.Type;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,15 +25,22 @@ public class Advertisement {
     @Column(length=500)
     private String description;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(name="category")
+    private Category category;
 
-    private String category;
+    @Enumerated(EnumType.STRING)
+    @Column(name="type")
+    private Type type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="location")
+    private Location location;
 
     @Lob
     @Column(length=Integer.MAX_VALUE)
     private String image;
 
-    private String location;
 
     private Long priceRangeLower;
 
@@ -39,9 +48,9 @@ public class Advertisement {
 
     private String contactNo;
 
-    private ZonedDateTime creationDate = ZonedDateTime.now(ZoneId.of("UTC"));
+    private Date creationDate;
 
-    private ZonedDateTime closedDate;
+    private Date closedDate;
 
     private boolean isActive = true;
 
@@ -54,11 +63,10 @@ public class Advertisement {
     @JsonIgnore
     private List<Comment> comments;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user") @JsonIgnore
     private List<Likes> likes;
 
-    public Advertisement(Long advertisementId, String description, String type, String category, String image, String location, Long priceRangeLower,Long priceRangeHigher, String contactNo, String creationDate, String closedDate) {
+    public Advertisement(Long advertisementId, String description, Type type, Category category, String image, Location location, Long priceRangeLower,Long priceRangeHigher, String contactNo, String creationDate, String closedDate) {
     }
 
 

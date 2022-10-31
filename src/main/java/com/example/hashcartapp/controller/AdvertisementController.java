@@ -1,5 +1,8 @@
 package com.example.hashcartapp.controller;
 
+import com.example.hashcartapp.constants.Category;
+import com.example.hashcartapp.constants.Location;
+import com.example.hashcartapp.constants.Type;
 import com.example.hashcartapp.dto.AdvertisementDTO;
 import com.example.hashcartapp.entities.Advertisement;
 import com.example.hashcartapp.service.AdvertisementService;
@@ -43,18 +46,19 @@ public class AdvertisementController {
 		if (advertisement != null) {
 			return new ResponseEntity<AdvertisementDTO>(advertisement, HttpStatus.OK);
 		}
-		return new ResponseEntity<AdvertisementDTO>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<AdvertisementDTO>(HttpStatus.NOT_FOUND);
 	}
 
 
 	/**
 	 * Show advertisement by category
-	 * @param page pageno
+	 * @param category category of advertisement can be VEHICLES, BOOKS etc
+	 * @param page page no
 	 * @param size size
-	 * @return Advertisement by category
+	 * @return It returns all advertisement by category
 	 */
-	@GetMapping("/advertisementByCategory/{category}")
-	public Page<Advertisement> findAdvertisementByCategory(@PathVariable("category") String category,
+	@GetMapping("/advertisement/category/{category}")
+	public Page<Advertisement> findAdvertisementByCategory(@PathVariable("category") Category category,
 														   @RequestParam(value = "page", defaultValue = "1") Integer page,
 														   @RequestParam(value = "size", defaultValue = "3") Integer size) {
 		PageRequest request = PageRequest.of(page - 1, size);
@@ -63,10 +67,14 @@ public class AdvertisementController {
 
 
 	/**
-	 *  Show advertisement by type
+	 * Show advertisement by type
+	 * @param type type of advertisement can be LOST, FOUND etc
+	 * @param page page no
+	 * @param size size
+	 * @return It returns all advertisement by type
 	 */
-	@GetMapping("/advertisementByType/{type}")
-	public Page<Advertisement> findAdvertisementByType(@PathVariable("type") String type,
+	@GetMapping("/advertisement/type/{type}")
+	public Page<Advertisement> findAdvertisementByType(@PathVariable("type") Type type,
 													   @RequestParam(value = "page", defaultValue = "1") Integer page,
 													   @RequestParam(value = "size", defaultValue = "3") Integer size) {
 		PageRequest request = PageRequest.of(page - 1, size);
@@ -74,42 +82,45 @@ public class AdvertisementController {
 	}
 
 	/**
-	 *  Show advertisement by location
+	 * Show advertisement by location
+	 * @param location location of advertisement
+	 * @param page page no
+	 * @param size size
+	 * @return It returns all advertisement by location
 	 */
-	@GetMapping("/advertisementByLocation/{location}")
-	public Page<Advertisement> findAdvertisementByLocation(@PathVariable("location") String location,
+	@GetMapping("/advertisement/location/{location}")
+	public Page<Advertisement> findAdvertisementByLocation(@PathVariable("location") Location location,
 														   @RequestParam(value = "page", defaultValue = "1") Integer page,
 													       @RequestParam(value = "size", defaultValue = "3") Integer size) {
 		PageRequest request = PageRequest.of(page - 1, size);
 		return advertisementService.findAdvertisementByLocation(location,request);
 	}
 
-//	@Secured({"admin", "user"})
 
 	/**
-	 * User is creating a new advertisement
-	 * @param advertisement
+	 *  User is creating a new advertisement
+	 * @param advertisementDTO
 	 * @return User post any new advertisement
 	 */
-    @PostMapping("/advertisement")
+    @PostMapping("advertisement")
 	@ExceptionHandler(HttpClientErrorException.class)
-	public ResponseEntity<Advertisement> registerAdvertisement( @RequestBody Advertisement advertisement) {
+	public ResponseEntity<AdvertisementDTO> registerAdvertisement( @RequestBody AdvertisementDTO advertisementDTO){
 		try {
-			Advertisement  advertisementSaved = advertisementService.saveAdvertisement(advertisement);
+			AdvertisementDTO  advertisementSaved = advertisementService.saveAdvertisement(advertisementDTO);
 			if (advertisementSaved != null) {
-				return new ResponseEntity<Advertisement>(advertisementSaved, HttpStatus.CREATED);
+				logger.info("Advertisement saved successfully");
+				return new ResponseEntity<AdvertisementDTO>(advertisementSaved, HttpStatus.CREATED);
 			}
 
-			return new ResponseEntity<Advertisement>(HttpStatus.CONFLICT);
+			return new ResponseEntity<AdvertisementDTO>(HttpStatus.CONFLICT);
 		} catch (HttpClientErrorException e) {
-			return new ResponseEntity<Advertisement>(HttpStatus.CONFLICT);
+			logger.error("Exception occurred {}",e.getMessage());
+			return new ResponseEntity<AdvertisementDTO>(HttpStatus.CONFLICT);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Advertisement>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<AdvertisementDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
-    //@Secured({"admin", "user"})
 
 	/**
 	 * User is deleting the advertisement
@@ -120,43 +131,13 @@ public class AdvertisementController {
 	public ResponseEntity<Advertisement> deleteAdvertisement(@Valid @PathVariable("advertisementId") Long advertisementId) {
 		try {
 			advertisementService.deleteAdvertisement(advertisementId);
+			logger.info("Advertisement is deleted successfully");
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	/**
-	 * It checks whether the advertisement is active or closed
-	 * @param advertisementId
-	 * @return It gives the advertisement is active or closed as true or false
-	 */
-	@GetMapping("/advertisementActiveStatus/{advertisementId}")
-	public boolean isAdvertisementActive(@Valid @PathVariable("advertisementId") Long advertisementId) {
-		try {
-			return advertisementService.isAdvertisementActive(advertisementId);
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			return false;
-		}
-	}
-
-	/**
-	 *
-	 * @param advertisementId
-	 * @return It shows the status of advertisement as deleted
-	 */
-
-/*	@GetMapping("/advertisementDeletedStatus/{advertisementId}")
-	public boolean isAdvertisementDeleted(@Valid @PathVariable("advertisementId") Long advertisementId) {
-		try {
-			logger.info("{}",advertisementService.isAdvertisementDeleted(advertisementId));
-			return advertisementService.isAdvertisementDeleted(advertisementId);
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			return false;
-		}
-	}*/
 
 	/**
 	 * User can change the details of the advertisement
@@ -171,6 +152,7 @@ public class AdvertisementController {
 
 		try {
 			advertisementUpdated= advertisementService.updateAdvertisement(advertisement, advertisementId);
+		    logger.info("Advertisement is updated successfully");
 		} catch (NullPointerException e1) {
 			logger.error(e1.getMessage());
 		} catch (Exception e) {

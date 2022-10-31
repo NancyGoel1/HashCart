@@ -3,6 +3,7 @@ package com.example.hashcartapp.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -27,6 +28,4 @@ public class Comment {
     @ManyToOne
     Advertisement advertisement;
 
-    /*public Comment(Long l, String commentText, String ZonedDateTime) {
-    }*/
 }

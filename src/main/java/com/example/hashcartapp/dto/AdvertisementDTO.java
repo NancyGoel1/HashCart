@@ -2,15 +2,22 @@ package com.example.hashcartapp.dto;
 
 import com.example.hashcartapp.entities.Comment;
 import com.example.hashcartapp.entities.Likes;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdvertisementDTO {
 
     public Long advertisementId;
@@ -18,16 +25,22 @@ public class AdvertisementDTO {
     @NotBlank(message = "Description is required")
     private String description;
 
-    @NotBlank(message = "Type is required")
-    private String type;
-
     @NotBlank(message = "Category is required")
+    @Enumerated(EnumType.STRING)
+    @Column(name="category")
     private String category;
 
-    private String image;
+    @NotBlank(message = "Type is required")
+    @Enumerated(EnumType.STRING)
+    @Column(name="type")
+    private String type;
 
     @NotBlank(message = "Location is required")
-    private String location;
+    @Enumerated(EnumType.STRING)
+    @Column(name="location")
+   private String location;
+
+    private String image;
 
     @NotNull(message = " Lower price is required")
     private Long priceRangeLower;
@@ -40,10 +53,10 @@ public class AdvertisementDTO {
     private String contactNo;
 
     @NotNull(message = "Creation date is required")
-    private ZonedDateTime creationDate;
+    private Date creationDate;
 
     @NotNull(message = "Closed date is required")
-    private ZonedDateTime closedDate;
+    private Date closedDate;
 
     private boolean isAdvertisementDeleted = false;
 

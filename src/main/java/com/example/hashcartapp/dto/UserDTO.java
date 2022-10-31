@@ -3,11 +3,19 @@ package com.example.hashcartapp.dto;
 import com.example.hashcartapp.entities.Advertisement;
 import com.example.hashcartapp.entities.Comment;
 import com.example.hashcartapp.entities.Likes;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import javax.validation.constraints.*;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
 
     public Long userId;
@@ -39,9 +47,8 @@ public class UserDTO {
 
     private List<Advertisement> advertisementList;
 
-    private Likes likes;
+    private List<Likes> likes;
 
     private List<Comment> comments;
-
 
 }

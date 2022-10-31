@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Entity
@@ -24,13 +25,14 @@ public class User {
 
     @JsonProperty(value = "empId", access = JsonProperty.Access.WRITE_ONLY)
     @Column(unique = true)
+    @Positive
     private Long empId;
 
     @Column(unique = true)
     private String email;
 
     @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
-    @Column(length = 50)
+    @Column(length = 500)
     private String password;
 
     private String department;
@@ -44,9 +46,9 @@ public class User {
     @JsonIgnore
     private List<Advertisement> advertisements;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
-    private Likes likes;
+    private List<Likes> likes;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore

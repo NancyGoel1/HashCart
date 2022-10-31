@@ -19,7 +19,7 @@ public class Likes {
 
     private ZonedDateTime likesCreatedAt = ZonedDateTime.now(ZoneId.of("UTC"));
 
-    @OneToOne
+    @ManyToOne
     private User user;
 
     @ManyToOne
